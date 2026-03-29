@@ -67,4 +67,32 @@ client.on('interactionCreate', async interaction => {
     }
 });
 
+client.on('messageCreate', async message => {
+    if (message.author.bot) return;
+
+    const prefix = '!';
+    if (!message.content.startsWith(prefix)) return;
+
+    const args = message.content.slice(prefix.length).trim().split(/\s+/);
+    const commandName = args.shift().toLowerCase();
+
+    // Mapea !mod a /mod (o a su comando equivalente)
+    if (commandName === 'mod') {
+        const command = client.commands.get('mod');
+        if (!command) return;
+
+        try {
+            // Creamos un objeto de interacción falso con lo mínimo requerido
+            await command.execute({
+                ...message,
+                reply: (content) => message.channel.send(content),
+                client,
+            });
+        } catch (error) {
+            console.error(error);
+            message.channel.send('Error al ejecutar !mod.');
+        }
+    }
+});
+
 client.login(token);

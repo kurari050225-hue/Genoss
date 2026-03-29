@@ -45,7 +45,7 @@ npm start
 ### Utilidad
 - `/giveaway <premio> <duracion>`: Inicia un sorteo.
 - `/remind <mensaje> <minutos>`: Establece recordatorio.
-- `/embed <titulo> <descripcion>`: Crea un embed.
+- `/embed <titulo> <descripcion> [color] [imagen] [thumbnail] [footer] [autor] [autor_icono]`: Crea un embed personalizado.
 - `/poll <pregunta>`: Crea una encuesta.
 - `/ticket`: Abre un ticket.
 - `/close`: Cierra un ticket.
