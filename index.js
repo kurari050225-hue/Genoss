@@ -14,6 +14,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+client.snipes = new Collection();
 
 const token = process.env.DISCORD_TOKEN; // Asegúrate de tener tu token en una variable de entorno
 const clientId = process.env.CLIENT_ID; // Tu Client ID de Discord
@@ -76,13 +77,11 @@ client.on('messageCreate', async message => {
     const args = message.content.slice(prefix.length).trim().split(/\s+/);
     const commandName = args.shift().toLowerCase();
 
-    // Mapea !mod a /mod (o a su comando equivalente)
     if (commandName === 'mod') {
         const command = client.commands.get('mod');
         if (!command) return;
 
         try {
-            // Creamos un objeto de interacción falso con lo mínimo requerido
             await command.execute({
                 ...message,
                 reply: (content) => message.channel.send(content),
@@ -93,6 +92,23 @@ client.on('messageCreate', async message => {
             message.channel.send('Error al ejecutar !mod.');
         }
     }
+
+    if (commandName === 'snipe') {
+        const snipe = client.snipes.get(message.channel.id);
+        if (!snipe) return message.channel.send('No hay mensajes eliminados recientes en este canal.');
+        message.channel.send({ content: `**Snipe:** ${snipe.author} dijo: ${snipe.content} (eliminado ${snipe.deletedAt})` });
+    }
+});
+
+client.on('messageDelete', message => {
+    if (message.partial || message.author?.bot || !message.content) return;
+
+    client.snipes.set(message.channel.id, {
+        content: message.content,
+        author: message.author.tag,
+        deletedAt: new Date().toLocaleString(),
+        channel: message.channel.id,
+    });
 });
 
 client.login(token);

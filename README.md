@@ -46,6 +46,7 @@ npm start
 - `/giveaway <premio> <duracion>`: Inicia un sorteo.
 - `/remind <mensaje> <minutos>`: Establece recordatorio.
 - `/embed <titulo> <descripcion> [color] [imagen] [thumbnail] [footer] [autor] [autor_icono]`: Crea un embed personalizado.
+- `/snipe`: Muestra el último mensaje eliminado del canal.
 - `/poll <pregunta>`: Crea una encuesta.
 - `/ticket`: Abre un ticket.
 - `/close`: Cierra un ticket.

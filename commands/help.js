@@ -12,7 +12,7 @@ module.exports = {
             .addFields(
                 { name: 'Moderación', value: '/ban, /kick, /clear, /warn, /mute, /lock, /unlock', inline: true },
                 { name: 'Seguridad', value: '/antilink, /antispam, /antiraid, /antibot, /antiflood', inline: true },
-                { name: 'Utilidad', value: '/giveaway, /remind, /embed, /poll, /ticket', inline: true },
+                { name: 'Utilidad', value: '/giveaway, /remind, /embed, /poll, /ticket, /snipe', inline: true },
                 { name: 'Diversión', value: '/meme, /joke, /8ball, /coinflip, /roll', inline: true },
                 { name: 'Info', value: '/ping, /stats, /botinfo, /serverstats, /avatar', inline: true },
             )
