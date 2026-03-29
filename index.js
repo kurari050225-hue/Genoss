@@ -94,7 +94,7 @@ client.on('messageCreate', async message => {
         }
     }
 
-    if (commandName === 'snipe' || commandName === 's') {
+    if (commandName === 's') {
         const snipe = client.snipes.get(message.channel.id);
         if (!snipe) return message.channel.send('No hay mensajes eliminados recientes en este canal.');
         message.channel.send({ content: `**Snipe:** ${snipe.author} dijo: ${snipe.content} (eliminado ${snipe.deletedAt})` });
