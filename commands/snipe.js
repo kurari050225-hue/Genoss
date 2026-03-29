@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,6 +12,16 @@ module.exports = {
             return interaction.reply({ content: 'No hay mensajes eliminados recientes en este canal.', ephemeral: true });
         }
 
-        await interaction.reply({ content: `**Snipe:** ${snipe.author} dijo: ${snipe.content} (eliminado ${snipe.deletedAt})` });
+        const embed = new EmbedBuilder()
+            .setTitle('Último mensaje eliminado')
+            .addFields(
+                { name: 'Autor', value: snipe.author, inline: true },
+                { name: 'Eliminado', value: snipe.deletedAt, inline: true },
+                { name: 'Contenido', value: snipe.content || 'No hay contenido' }
+            )
+            .setColor(0xff0000)
+            .setFooter({ text: `Canal: ${interaction.channel.name}` });
+
+        await interaction.reply({ embeds: [embed] });
     },
 };
