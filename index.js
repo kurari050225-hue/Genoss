@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { Client, GatewayIntentBits, REST, Routes, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, REST, Routes, Collection } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -11,6 +11,7 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
     ],
+    partials: [Partials.Message, Partials.Channel, Partials.Reaction],
 });
 
 client.commands = new Collection();
@@ -100,8 +101,17 @@ client.on('messageCreate', async message => {
     }
 });
 
-client.on('messageDelete', message => {
-    if (message.partial || message.author?.bot || !message.content) return;
+client.on('messageDelete', async message => {
+    if (message.partial) {
+        try {
+            message = await message.fetch();
+        } catch (error) {
+            console.error('No pude obtener el message delete parcial:', error);
+            return;
+        }
+    }
+
+    if (!message.content || message.author?.bot) return;
 
     client.snipes.set(message.channel.id, {
         content: message.content,
